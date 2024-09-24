@@ -1,15 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Button, Donthaveacoount, Inputg, Logo, Welcomeback } from ".";
-import { useUser } from "@/provider/AncestorProvider";
+import { Loading } from "../Loading";
 const Login = () => {
-  const { loginhandler, isLoggedIn, Loading } = useUser();
   const [arr, setArr] = useState({
     email: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
   const { push } = useRouter();
@@ -29,8 +30,11 @@ const Login = () => {
       return;
     }
     try {
-      await loginhandler(email, password);
-      push("/");
+      const res = await axios.post("http://localhost:8000/api/user/login", arr);
+      const token = res.data.token;
+      localStorage.setItem("token", token);
+
+      push("/steps");
     } catch (error) {
       serError(error.message);
     }
@@ -38,9 +42,13 @@ const Login = () => {
     console.log("success");
   };
 
-  if (isLoggedIn) {
-    push("/");
-  }
+  // useEffect(() => {
+  //   setLoading(true);
+
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 1000);
+  // }, []);
 
   if (loading) {
     return (
