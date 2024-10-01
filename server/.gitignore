@@ -1,2 +1,4 @@
 /node_modules
 .env
+
+CREATE TABLE IF NOT EXISTS users(userID SERIAL PRIMARY KEY, username TEXT NOT NULL, email TEXT NOT NULL, password TEXT NOT NULL, createdAt TIMESTAMP, currency CHAR(3),balance TEXT ) 

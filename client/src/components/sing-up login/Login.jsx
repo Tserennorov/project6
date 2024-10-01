@@ -4,7 +4,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Button, Donthaveacoount, Inputg, Logo, Welcomeback } from ".";
 import { Loading } from "../Loading";
+import { useUserContext } from "@/provider/AncestorProvider";
 const Login = () => {
+  const { loginHandler, isLoggedIn } = useUserContext();
   const [arr, setArr] = useState({
     email: "",
     password: "",
@@ -19,29 +21,21 @@ const Login = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setArr({ ...arr, [name]: value });
+    setArr((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const { email, password } = arr;
-    if (!email || !password) {
-      setError("Invalid inputs");
-      return;
-    }
     try {
-      const res = await axios.post("http://localhost:8000/api/user/login", arr);
-      const token = res.data.token;
-      localStorage.setItem("token", token);
-
-      push("/steps");
+      await loginHandler(arr.email, arr.password);
     } catch (error) {
-      serError(error.message);
+      setError(error.message);
     }
-
-    console.log("success");
   };
 
+  if (isLoggedIn) {
+    push("/steps");
+    return;
+  }
   // useEffect(() => {
   //   setLoading(true);
 
@@ -67,14 +61,18 @@ const Login = () => {
           onchange={handleChange}
           name={"email"}
           placeholder={"Email"}
-          type="email"
+          type={"email"}
+          value={arr.email}
         />
         <Inputg
           onchange={handleChange}
           name={"password"}
           placeholder={"Password"}
-          type="password"
+          type={"password"}
+          value={arr.password}
         />
+        {error && <div className="text-red-500">{error}</div>}
+
         <Button click={handleSubmit} login={"Log in"} />
       </div>
       <Donthaveacoount

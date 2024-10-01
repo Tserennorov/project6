@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Button, Donthaveacoount, Inputg, Logo, Welcomeback } from ".";
+import { useUserContext } from "@/provider/AncestorProvider";
 
 const Signup = () => {
   const [userDetail, setUserDetail] = useState({
@@ -13,6 +14,8 @@ const Signup = () => {
     passwordRepeat: "",
   });
 
+  const { loginHandler, isLoggedIn } = useUserContext();
+
   const [error, setError] = useState("");
   const { push } = useRouter();
   const title = "Create Geld account";
@@ -20,7 +23,7 @@ const Signup = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setUserDetail({ ...userDetail, [name]: value });
+    setUserDetail((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
@@ -46,6 +49,10 @@ const Signup = () => {
       setError(error.response.data);
     }
   };
+  if (isLoggedIn) {
+    push("/steps");
+    return;
+  }
   return (
     <div className="w-6/12 flex items-center justify-center flex-col gap-10">
       <Logo />

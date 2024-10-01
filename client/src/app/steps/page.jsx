@@ -6,10 +6,16 @@ import { Top } from "@/components/stepscomponent";
 import { Balance, Currency, Finish } from "@/components/stepscomponent";
 import { Loading } from "@/components/Loading";
 
-const steps = [Balance, Currency, Finish];
+const steps = [Currency, Balance, Finish];
 
 const Page = () => {
   const { push } = useRouter();
+
+  const [cashDetail, setCashDetail] = useState({
+    currency: "",
+    balance: "",
+  });
+
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +23,7 @@ const Page = () => {
 
   const continueHandler = () => {
     if (step === 2) {
-      push("/dashboard");
+      push("/");
       return;
     }
     setStep((prev) => prev + 1);

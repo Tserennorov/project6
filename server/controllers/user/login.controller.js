@@ -2,6 +2,7 @@ import fs, { readFileSync } from "fs";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import env from "dotenv";
+env.config();
 
 export const loginController = async (req, res) => {
   const { email, password } = req.body;
@@ -22,7 +23,13 @@ export const loginController = async (req, res) => {
     return;
   }
 
-  const token = jwt.sign({ email }, process.env.TOKENSECRET);
+  const token = jwt.sign(
+    { userId: findEmail.userId, email: findEmail.email },
+    process.env.TOKENSECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
 
   res.status(200).send({ token });
 };

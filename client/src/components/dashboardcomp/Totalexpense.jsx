@@ -1,5 +1,4 @@
 import React from "react";
-import { Yourincome } from "./Yourincome";
 
 export const Totalexpense = () => {
   return (
@@ -25,8 +24,8 @@ export const Totalexpense = () => {
             </p>
           </div>
         </div>
-        <Yourincome />
-        <Yourincome />
+        <div className="w-[400px] h-[216px] rounded-xl bg-white"></div>
+        <div className="w-[400px] h-[216px] rounded-xl bg-white"></div>
       </div>
     </div>
   );
