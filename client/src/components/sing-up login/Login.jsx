@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button, Donthaveacoount, Inputg, Logo, Welcomeback } from ".";
 import { Loading } from "../Loading";
 import { useUserContext } from "@/provider/AncestorProvider";
+
 const Login = () => {
   const { loginHandler, isLoggedIn } = useUserContext();
   const [arr, setArr] = useState({
@@ -28,6 +29,8 @@ const Login = () => {
     try {
       await loginHandler(arr.email, arr.password);
     } catch (error) {
+      console.log(error);
+
       setError(error.message);
     }
   };
