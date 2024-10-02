@@ -2,18 +2,22 @@
 
 import { Button, Inputg } from "../sing-up login";
 import { MainSection } from "./MainSection";
-import { Select } from "./Select";
 
 export const Balance = ({ continueHandler, handleChange }) => {
   return (
     <div className="w-[384px]">
       <MainSection
-        src={"currency.png"}
-        title={"Select base currency"}
-        component={<Select />}
-        desc={
-          "Your base currency should be the one you use most often. All transaction in other currencies will be calculated based on this one "
+        src={"balance.png"}
+        title={"Set up your cash Currency"}
+        component={
+          <Inputg
+            onchange={handleChange}
+            name={"balance"}
+            placeholder={"balance"}
+            type={"text"}
+          />
         }
+        desc={"How much cash do you have in your wallet?"}
       />
 
       <Button click={continueHandler} text={"Confirm"} />
