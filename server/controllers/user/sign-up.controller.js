@@ -9,7 +9,7 @@ export const signUpController = async (req, res) => {
 
   const userid = uuid();
 
-  if (!username || !password || !email) {
+  if (!username && !password && !email) {
     res.send("Invalid inputs");
     return;
   }
